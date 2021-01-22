@@ -1,0 +1,17 @@
+digraph G {
+	{
+		a -> Z
+		b -> Z
+		c -> Z
+	}
+	{
+		edge [sametail=atail];
+		Z -> A
+		Z -> B
+	}
+	{
+		edge [sametail=atail];
+		Z -> C
+		Z -> D
+	}
+}
