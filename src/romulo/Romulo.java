@@ -14,7 +14,6 @@ public class Romulo extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        // Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         Graph g = new Graph();
         primaryStage.setScene(new Scene(g, 500, 400));
