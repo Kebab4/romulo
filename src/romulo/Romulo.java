@@ -8,20 +8,27 @@ import javafx.stage.Stage;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.io.File;
 import java.util.*;
 
 public class Romulo extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+
+        List<Graph> graphs = Import.ModelfromFile("import/graph.mba");
+        for (Graph g : graphs)
+            g.print();
+
+/*
         primaryStage.setTitle("Hello World");
-        Graph g = new Graph();
+        GraphView g = new GraphView();
         primaryStage.setScene(new Scene(g, 500, 400));
         primaryStage.show();
-        Import file = new Import("export/graph3.dotjson");
-        JSONArray objects = (JSONArray) file.graph.get("objects");
+        JSONObject file = Import.JSONfromfile("import/graph3.dotjson");
+        JSONArray objects = (JSONArray) file.get("objects");
         JSONObject sizes = (JSONObject) objects.get(0);
-        JSONArray edges = (JSONArray) file.graph.get("edges");
+        JSONArray edges = (JSONArray) file.get("edges");
 
         for (int i = 1; i <= ((JSONArray) sizes.get("nodes")).size(); i++) {
             JSONObject vertex = (JSONObject) objects.get(i);
@@ -43,7 +50,7 @@ public class Romulo extends Application {
             }
             g.addEdge(poss, tail, head);
             System.out.println(tail + " " + head);
-        }
+        }*/
     }
 
 

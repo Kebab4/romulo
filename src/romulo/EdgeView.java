@@ -7,7 +7,7 @@ import javafx.scene.shape.QuadCurveTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.ArcTo;
 
-public class Edge extends javafx.scene.shape.Path {
+public class EdgeView extends javafx.scene.shape.Path {
     long v1, v2;
 
     /*Edge (Vertex v1, Vertex v2) {
@@ -15,7 +15,7 @@ public class Edge extends javafx.scene.shape.Path {
         this.v1 = v1;
         this.v2 = v2;
     }*/
-    Edge (List<float[]> poss, long v1, long v2) {
+    EdgeView(List<float[]> poss, long v1, long v2) {
         super();
         MoveTo moveTo = new MoveTo();
         moveTo.setX(poss.get(0)[0]);
