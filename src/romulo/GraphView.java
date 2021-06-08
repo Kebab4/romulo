@@ -11,7 +11,7 @@ public class GraphView extends javafx.scene.layout.Pane {
         edges.add(e);
         this.getChildren().add(e);
     }
-    void addVertex(int x, int y, int r) {
+    void addVertex(double x, double y, int r) {
         VertexView v = new VertexView(x, y, r, vertices.size());
         vertices.add(v);
         this.getChildren().add(v);

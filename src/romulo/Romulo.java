@@ -17,31 +17,35 @@ public class Romulo extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         List<Graph> graphs = Import.ModelfromFile("import/graph.mba");
-        for (Graph g : graphs)
-            g.print();
 
-/*
-        primaryStage.setTitle("Hello World");
+        String BA = Export.BAfromModel(graphs.get(0));
+        Export.FilefromString(BA, "export/tmp.ba");
+        Command.Run("make -C lib/ba-graph/apps/showcutgraph/");
+        Command.Run("./lib/ba-graph/apps/showcutgraph/showcutgraph -i export/tmp.ba -p  > export/tmp.gv");
+        Command.Run("neato -Tjson0 export/tmp.gv -o export/tmp.dotjson");
+        Command.Run("neato -Tpdf export/tmp.gv -o export/tmp.pdf");
+
+
+        primaryStage.setTitle("Okno");
         GraphView g = new GraphView();
         primaryStage.setScene(new Scene(g, 500, 400));
         primaryStage.show();
-        JSONObject file = Import.JSONfromfile("import/graph3.dotjson");
+        JSONObject file = Import.JSONfromfile("export/tmp.dotjson");
         JSONArray objects = (JSONArray) file.get("objects");
-        JSONObject sizes = (JSONObject) objects.get(0);
         JSONArray edges = (JSONArray) file.get("edges");
 
-        for (int i = 1; i <= ((JSONArray) sizes.get("nodes")).size(); i++) {
+        for (int i = 0; i < objects.size(); i++) {
             JSONObject vertex = (JSONObject) objects.get(i);
             String[] pos = ((String) vertex.get("pos")).split(",");
-            g.addVertex(Integer.parseInt(pos[0]), Integer.parseInt(pos[1]), 10);
+            g.addVertex(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), 10);
             System.out.println(vertex.get("name"));
         }
-        for (int i = 0; i < ((JSONArray) sizes.get("edges")).size(); i++) {
+        for (int i = 0; i < edges.size(); i++) {
             JSONObject edge = (JSONObject) edges.get(i);
             long tail = (long) edge.get("tail");
             long head = (long) edge.get("head");
-            String[] pos = ((String) edge.get("pos")).substring(2).split(" ");
-            List< float[] > poss = new ArrayList<>();
+            String[] pos = ((String) edge.get("pos")).split(" ");
+            List<float[]> poss = new ArrayList<>();
             for (String s : pos) {
                 String[] ssplit = s.split(",");
                 float[] longlist = {Float.parseFloat(ssplit[0]), Float.parseFloat(ssplit[1])};
@@ -50,7 +54,7 @@ public class Romulo extends Application {
             }
             g.addEdge(poss, tail, head);
             System.out.println(tail + " " + head);
-        }*/
+        }
     }
 
 

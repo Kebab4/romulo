@@ -7,9 +7,9 @@ import java.util.Set;
 import javafx.util.Pair;
 
 public class Graph {
-    private int size;
-    private List<List<Integer>> incidence;
-    private List<Pair<Integer, List<List<Integer>>>> multipoles;
+    int size;
+    List<List<Integer>> incidence;
+    List<Pair<Integer, List<List<Integer>>>> multipoles;
 
     public Graph(int size, List<List<Integer>> incs, List<Pair<Integer, List<List<Integer>>>> muls) {
         this.size = size;

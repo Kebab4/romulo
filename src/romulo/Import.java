@@ -39,6 +39,20 @@ public class Import {
         return list;
     }
 
+    /*
+    FORMAT
+    n // number of graphs
+    n-times:
+        m o // number of vertices, number of multipoles
+        m-times:
+            i j k l... // list of neighbours
+        o-times:
+            i j k l... // list of vertices in multipole
+            r s t u... // number of connectors in connector
+            a b, c d, e f... // r-times, s-times, t-times edges as vertex vertex, vertex vertex...
+
+     */
+
     public static List<Graph> ModelfromFile(String filename) {
         List<Graph> graphs = new ArrayList<>();
         try {
@@ -46,6 +60,7 @@ public class Import {
             Scanner scan = new Scanner(myObj);
             int numOfGraphs = scan.nextInt();
             for (int i = 0; i < numOfGraphs; i++) {
+                int indexNum = scan.nextInt();
                 int sizeOfGraph = scan.nextInt(); // pocet vrcholov
                 int numOfMultipoles = scan.nextInt(); // pocet multipolov
                 scan.nextLine(); // because of problems with endline
