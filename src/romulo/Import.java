@@ -1,5 +1,6 @@
 package romulo;
 
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
@@ -53,7 +54,7 @@ public class Import {
 
      */
 
-    public static List<Graph> ModelfromFile(String filename) {
+    public static List<Graph> ModelfromBA(String filename) {
         List<Graph> graphs = new ArrayList<>();
         try {
             File myObj = new File(filename);
@@ -94,5 +95,38 @@ public class Import {
             e.printStackTrace();
         }
         return graphs;
+    }
+
+    public static GraphView ViewfromJSON(JSONObject file, Graph g) {
+        GraphView gv = new GraphView();
+        JSONArray objects = (JSONArray) file.get("objects");
+        JSONArray edges = (JSONArray) file.get("edges");
+
+        for (int i = 0; i < objects.size(); i++) {
+            JSONObject vertex = (JSONObject) objects.get(i);
+            String[] pos = ((String) vertex.get("pos")).split(",");
+            if (g.multipoles.stream().anyMatch(n -> (n.getKey().equals(Integer.parseInt(vertex.get("name").toString()))))) {
+                gv.addMult(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), 13);
+            } else {
+                gv.addVertex(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), 10);
+            }
+            System.out.println(vertex.get("name"));
+        }
+        for (int i = 0; i < edges.size(); i++) {
+            JSONObject edge = (JSONObject) edges.get(i);
+            long tail = (long) edge.get("tail");
+            long head = (long) edge.get("head");
+            String[] pos = ((String) edge.get("pos")).split(" ");
+            List<float[]> poss = new ArrayList<>();
+            for (String s : pos) {
+                String[] ssplit = s.split(",");
+                float[] longlist = {Float.parseFloat(ssplit[0]), Float.parseFloat(ssplit[1])};
+                poss.add(longlist);
+                System.out.println(s);
+            }
+            gv.addEdge(poss, tail, head);
+            System.out.println(tail + " " + head);
+        }
+        return gv;
     }
 }
