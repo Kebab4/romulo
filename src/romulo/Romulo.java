@@ -15,8 +15,9 @@ public class Romulo extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
-        List<Graph> graphs = Import.ModelfromBA("import/graph.mba");
+        File myObj = new File("import/graph.mba");
+        Scanner scan = new Scanner(myObj);
+        List<Graph> graphs = new ExtendedFormatter().loadModel(scan);
 
         String BA = Export.BAfromModel(graphs.get(0));
         Export.FilefromString(BA, "export/tmp.ba");
