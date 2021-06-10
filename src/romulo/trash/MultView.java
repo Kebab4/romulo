@@ -1,4 +1,4 @@
-package romulo;
+package romulo.trash;
 
 public class MultView extends VertexView {
 

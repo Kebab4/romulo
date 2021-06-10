@@ -1,4 +1,4 @@
-package romulo;
+package romulo.trash;
 
 public class VertexView extends javafx.scene.shape.Circle {
     int id;

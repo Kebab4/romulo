@@ -6,8 +6,10 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Scanner;
-import javafx.util.Pair;
+
+import romulo.graph.Edge;
+import romulo.graph.Graph;
+import romulo.graph.Vertex;
 
 import java.io.*;
 
@@ -34,36 +36,41 @@ public class Import {
 
 
 
-    public static GraphView ViewfromJSON(JSONObject file, Graph g) {
-        GraphView gv = new GraphView(g);
+    public static void ModelfromJSON(JSONObject file, Graph g) {
         JSONArray objects = (JSONArray) file.get("objects");
         JSONArray edges = (JSONArray) file.get("edges");
 
         for (int i = 0; i < objects.size(); i++) {
             JSONObject vertex = (JSONObject) objects.get(i);
             String[] pos = ((String) vertex.get("pos")).split(",");
-            if (g.multipoles.stream().anyMatch(n -> (n.getKey().equals(Integer.parseInt(vertex.get("name").toString()))))) {
-                gv.addMult(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), 13, Integer.parseInt(vertex.get("name").toString()));
-            } else {
-                gv.addVertex(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), 10, Integer.parseInt(vertex.get("name").toString()));
-            }
-            System.out.println(vertex.get("name"));
+            g.vertices.get(Integer.parseInt(vertex.get("name").toString())).setXY(
+                    Double.parseDouble(pos[0]), Double.parseDouble(pos[1]));
+            Vertex tmpV = g.vertices.get(Integer.parseInt(vertex.get("name").toString()));
+            //System.out.println("vrchol " + vertex.get("name").toString() + " " + tmpV.getCenterX() + " " + tmpV.getCenterY());
         }
         for (int i = 0; i < edges.size(); i++) {
             JSONObject edge = (JSONObject) edges.get(i);
-            long tail = (long) edge.get("tail");
-            long head = (long) edge.get("head");
+            int tail = Integer.parseInt(((JSONObject) objects.get(((Long) edge.get("tail")).intValue())).get("name").toString());
+            int head = Integer.parseInt(((JSONObject) objects.get(((Long) edge.get("head")).intValue())).get("name").toString());
             String[] pos = ((String) edge.get("pos")).split(" ");
             List<float[]> poss = new ArrayList<>();
+            double aveX = 0, aveY = 0;
             for (String s : pos) {
                 String[] ssplit = s.split(",");
                 float[] longlist = {Float.parseFloat(ssplit[0]), Float.parseFloat(ssplit[1])};
                 poss.add(longlist);
-                System.out.println(s);
+                aveX += longlist[0];
+                aveY += longlist[1];
             }
-            gv.addEdge(poss, tail, head);
-            System.out.println(tail + " " + head);
+            for (Edge e : g.edges) {
+                //System.out.println(tail + " " + head + " " + e.e1.v.id + " " + e.e2.v.id);
+                if ((e.e1.v.id == tail && e.e2.v.id == head) || (
+                        e.e1.v.id == head && e.e2.v.id == tail)) {
+                    e.middle.setXY(aveX/pos.length, aveY/pos.length);
+                    //System.out.println("point " + e.middle.getCenterX() + " " + e.middle.getCenterY());
+                    break;
+                }
+            }
         }
-        return gv;
     }
 }

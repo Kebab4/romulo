@@ -1,17 +1,17 @@
-package romulo;
+package romulo.trash;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+
 import javafx.util.Pair;
 
-public class Graph {
+public class GraphOld {
     int size;
     List<List<Integer>> incidence;
     List<Pair<Integer, List<List<Integer>>>> multipoles;
 
-    public Graph(int size, List<List<Integer>> incs, List<Pair<Integer, List<List<Integer>>>> muls) {
+    public GraphOld(int size, List<List<Integer>> incs, List<Pair<Integer, List<List<Integer>>>> muls) {
         this.size = size;
         this.incidence = incs;
         this.multipoles = muls;
@@ -48,7 +48,7 @@ public class Graph {
         return old - counter + 1;
     }
 
-    public Graph mergeMultipole(List<Integer> vertices, List<List<Pair<Integer, Integer>>> connectors) {
+    public GraphOld mergeMultipole(List<Integer> vertices, List<List<Pair<Integer, Integer>>> connectors) {
 
         Integer repre = Collections.min(vertices);
         List<List<Integer>> incs = new ArrayList<>();
@@ -97,7 +97,7 @@ public class Graph {
             newMultCons.add(newMulCon);
         }
         muls.add(new Pair<>(repre, newMultCons));
-        return new Graph(size - vertices.size() + 1, incs, muls);
+        return new GraphOld(size - vertices.size() + 1, incs, muls);
     }
 }
 

@@ -1,6 +1,8 @@
-package romulo;
+package romulo.trash;
 
 import javafx.scene.Node;
+import romulo.graph.Graph;
+
 import java.util.*;
 
 public class GraphView extends javafx.scene.layout.Pane {
