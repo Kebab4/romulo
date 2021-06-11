@@ -5,8 +5,10 @@ import romulo.graph.Edge;
 import romulo.graph.Graph;
 import romulo.graph.Multipole;
 import romulo.graph.Vertex;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.List;
 
@@ -94,28 +96,39 @@ class SimpleFormatter implements Formatter {
             int sizeOfGraph = scan.nextInt(); // pocet vrcholov
             Graph g = new Graph(sizeOfGraph);
             scan.nextLine(); // because of problems with endline
+            String[] lines = new String[sizeOfGraph];
             for (int j = 0; j < sizeOfGraph; j++) {
-                if (scan.hasNextInt()) { // normalny vrchol
-                    for (Integer k : this.getListNumbers(scan.nextLine().trim(), " +")) {
+                String l = scan.nextLine().trim();
+                if (l.matches("[0-9 ]+")) {
+                    g.addVertex(j);
+                } else {
+                    g.addMultipole(j, l.split(" +")[l.split(" +").length-1]);
+                }
+                lines[j] = l;
+            }
+            for (int j = 0; j < sizeOfGraph; j++) {
+                String l = lines[j];
+                if (l.matches("[0-9 ]+")) { // normalny vrchol
+                    for (Integer k : this.getListNumbers(l.trim(), " +")) {
                         g.vertices.get(j).addEdge(k, g);
                     }
                 } else { // multipol
-                    String name = scan.next();
-                    String[] allCon = scan.nextLine().trim().split(",");
+                    String name = l.split(" +")[l.split(" +").length-1];
+                    String[] allCon = String.join(",", Arrays.copyOfRange(l.split(" +"), 0,
+                            l.split(" +").length - 1)).split(",");
                     List<List<Integer>> connectors = new ArrayList<>();
                     for (String con : allCon) {
                         List<Integer> cons = this.getListNumbers(con.trim(), " +");
                         connectors.add(cons);
                     }
-                    if (g.vertices.get(j) instanceof Multipole) {
-                        Vertex v = g.vertices.get(j);
-                        Multipole m = (Multipole) g.vertices.get(j);
-                        m.setConnectors(connectors);
-                        m.setType(name);
-                        m.setRadius(15);
-                        m.setColor(Color.RED);
-                    }
+                    Vertex v = g.vertices.get(j);
+                    Multipole m = (Multipole) g.vertices.get(j);
+                    m.setConnectors(connectors);
                 }
+            }
+            for (Text t : g.texts) {
+                t.toFront();
+                System.out.println(t.getX());
             }
             graphs.add(g);
         }

@@ -13,7 +13,7 @@ public class Romulo extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        File myObj = new File("import/graph.mba");
+        File myObj = new File("import/graphs/ex3.mba");
         Scanner scan = new Scanner(myObj);
         List<Graph> graphs = new SimpleFormatter().loadModel(scan);
 
@@ -26,8 +26,8 @@ public class Romulo extends Application {
 
 
         Import.ModelfromJSON(Import.JSONfromfile("export/tmp.dotjson"), graphs.get(0));
-        graphs.get(0).move(100, 100);
-        graphs.get(0).scale(1.5);
+        graphs.get(0).move(200, 150);
+        //graphs.get(0).scale(2);
         primaryStage.setTitle("Okno");
         primaryStage.setScene(new Scene(graphs.get(0), 500, 400));
         System.out.println("vsetky deti " + graphs.get(0).getChildren().size() + " " + graphs.get(0).getChildren());

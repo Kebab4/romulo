@@ -2,9 +2,6 @@ package romulo.graph;
 
 
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
-import javafx.scene.text.TextBoundsType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +10,7 @@ public class Vertex extends Node {
     public int id;
     public List<Edge> edges = new ArrayList<>();
     Graph g;
+    Text text;
 
 
     public Vertex(int id, Graph g, int radius, Color color, String meno) {
@@ -23,7 +21,7 @@ public class Vertex extends Node {
     }
 
     public Vertex(int id, Graph g) {
-        super(10, Color.BLACK);
+        super(5, Color.BLACK);
         this.id = id;
         this.g = g;
         this.setText(String.valueOf(id));
@@ -43,12 +41,7 @@ public class Vertex extends Node {
     }
 
     void setText(String meno) {
-        Text text = new Text(String.valueOf(meno));
-        text.setBoundsType(TextBoundsType.VISUAL);
-        text.xProperty().bind(this.centerXProperty());
-        text.yProperty().bind(this.centerYProperty());
-        text.setTextAlignment(TextAlignment.CENTER);
-        this.g.addText(text);
+        this.text = new Text(meno, this);
     }
 
 }

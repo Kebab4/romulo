@@ -6,6 +6,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import java.util.List;
 import java.util.ArrayList;
+import javafx.util.Pair;
 
 import romulo.graph.Edge;
 import romulo.graph.Graph;
@@ -48,6 +49,7 @@ public class Import {
             Vertex tmpV = g.vertices.get(Integer.parseInt(vertex.get("name").toString()));
             //System.out.println("vrchol " + vertex.get("name").toString() + " " + tmpV.getCenterX() + " " + tmpV.getCenterY());
         }
+        List<Pair<Integer, Integer>> addedEdges = new ArrayList<>();
         for (int i = 0; i < edges.size(); i++) {
             JSONObject edge = (JSONObject) edges.get(i);
             int tail = Integer.parseInt(((JSONObject) objects.get(((Long) edge.get("tail")).intValue())).get("name").toString());
@@ -62,13 +64,25 @@ public class Import {
                 aveX += longlist[0];
                 aveY += longlist[1];
             }
+            int duplicates = 0;
+            for (Pair<Integer, Integer> e : addedEdges) {
+                if ((e.getKey() == tail && e.getValue() == head) || (
+                        e.getKey() == head && e.getValue() == tail)) {
+                    duplicates++;
+                }
+            }
+            addedEdges.add(new Pair<>(tail, head));
             for (Edge e : g.edges) {
                 //System.out.println(tail + " " + head + " " + e.e1.v.id + " " + e.e2.v.id);
                 if ((e.e1.v.id == tail && e.e2.v.id == head) || (
                         e.e1.v.id == head && e.e2.v.id == tail)) {
-                    e.middle.setXY(aveX/pos.length, aveY/pos.length);
-                    //System.out.println("point " + e.middle.getCenterX() + " " + e.middle.getCenterY());
-                    break;
+                    if (duplicates != 0) {
+                        duplicates--;
+                    } else {
+                        e.middle.setXY(aveX / pos.length, aveY / pos.length);
+                        //System.out.println("point " + e.middle.getCenterX() + " " + e.middle.getCenterY());
+                        break;
+                    }
                 }
             }
         }

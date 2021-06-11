@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 public class Multipole extends Vertex {
-    String type;
-    List<Connector> connectors = new ArrayList<>();
+    public String type;
+    public List<Connector> connectors = new ArrayList<>();
 
     Multipole(int id, String type, Graph g) {
-        super(id, g, 15, Color.RED, type);
+        super(id, g, 7, Color.RED, type);
         this.type = type;
     }
     public void setType(String type) {
