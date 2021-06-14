@@ -53,7 +53,6 @@ public class Graph extends javafx.scene.layout.Pane {
     void addText(Text t) {
         texts.add(t);
         this.getChildren().add(t);
-        System.out.println(t.getText() + " " +  t.getX() + " " +  t.getY());
     }
 
     public void move(double x, double y) {
@@ -64,9 +63,6 @@ public class Graph extends javafx.scene.layout.Pane {
         for (Node n : this.points) {
             n.setCenterX(n.getCenterX() + x);
             n.setCenterY(n.getCenterY() + y);
-        }
-        for (Text t : this.texts) {
-            System.out.println(t.getText() + " " +  t.getX() + " " +  t.getY());
         }
     }
     public void scale(double times) {

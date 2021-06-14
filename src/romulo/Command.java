@@ -16,11 +16,15 @@ public class Command {
         }).start();
     }
 
-    public static void Run(String command) throws Exception {
-        Process p = Runtime.getRuntime().exec(new String[] {"bash", "-c", command});
-        System.out.println(command + " executed");
-        inheritIO(p.getInputStream(), System.out);
-        inheritIO(p.getErrorStream(), System.err);
-        p.waitFor();
+    public static void Run(String command) {
+        try {
+            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", command});
+            System.out.println(command + " executed");
+            inheritIO(p.getInputStream(), System.out);
+            inheritIO(p.getErrorStream(), System.err);
+            p.waitFor();
+        } catch (Exception e) {
+
+        }
     }
 }

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.*;
 
 public interface Formatter {
-    List<Graph> loadModel(Scanner s) throws Exception;
+    List<Graph> loadModel(Scanner s);
     default List<Integer> getListNumbers(String s, String regexSep) {
         List<Integer> list = new ArrayList<>();
         for (String field : s.split(regexSep)) { // susedia vrchola
@@ -91,7 +91,7 @@ class SimpleFormatter implements Formatter {
                 Name i j, k, l m n ... // Name of multipole and neighbours grouped in connectors
      */
     @Override
-    public List<Graph> loadModel(Scanner scan) throws Exception {
+    public List<Graph> loadModel(Scanner scan) {
         List<Graph> graphs = new ArrayList<>();
         int numOfGraphs = scan.nextInt();
         for (int i = 0; i < numOfGraphs; i++) {
@@ -137,7 +137,6 @@ class SimpleFormatter implements Formatter {
             }
             for (Text t : g.texts) {
                 t.toFront();
-                System.out.println(t.getX());
             }
             graphs.add(g);
         }

@@ -73,8 +73,7 @@ public class Node extends javafx.scene.shape.Circle {
                 double offsetY = t.getSceneY() - orgSceneY;
                 double newTranslateX = orgTranslateX + offsetX;
                 double newTranslateY = orgTranslateY + offsetY;
-                //System.out.println(t.getSceneX() + " " + t.getSceneY() + " " +
-                //        ((Node)(t.getSource())).getCenterX() + " " + ((Node)(t.getSource())).getCenterY());
+
                 ((Node) eo).setTranslateX(newTranslateX);
                 ((Node) eo).setTranslateY(newTranslateY);
 

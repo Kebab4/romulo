@@ -19,8 +19,6 @@ public class Text extends javafx.scene.text.Text {
         this.xProperty().bind(v.centerXProperty().add(-this.getLayoutBounds().getWidth()/2).add(v.translateXProperty()));
         this.yProperty().bind(v.centerYProperty().add(this.getLayoutBounds().getHeight()/2).add(v.translateYProperty()));
         this.setTextAlignment(TextAlignment.CENTER);
-        System.out.println(this.getX() + " " + this.getY());
-        System.out.println(this.getText());
         v.g.addText(this);
         this.setCursor(Cursor.HAND);
         this.setOnMousePressed(v.circleOnMousePressedEventHandler);

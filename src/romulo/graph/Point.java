@@ -26,7 +26,6 @@ public class Point extends Node {
                 this.edge.e2.startYProperty()).divide(2);
         this.centerXProperty().bind(midPointX.add(midPointX.divide(100).multiply(shift)));
         this.centerYProperty().bind(midPointY.add(midPointY.divide(100).multiply(shift)));
-        System.out.println(this.getCenterX() + " " + this.getCenterY());
     }
     public void unsetBind() {
         this.centerXProperty().unbind();

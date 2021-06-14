@@ -48,7 +48,6 @@ public class Import {
             g.vertices.get(Integer.parseInt(vertex.get("name").toString())).setXY(
                     Double.parseDouble(pos[0])*zoom, Double.parseDouble(pos[1])*zoom);
             Vertex tmpV = g.vertices.get(Integer.parseInt(vertex.get("name").toString()));
-            //System.out.println("vrchol " + vertex.get("name").toString() + " " + tmpV.getCenterX() + " " + tmpV.getCenterY());
         }
         List<Pair<Integer, Integer>> addedEdges = new ArrayList<>();
         for (int i = 0; i < edges.size(); i++) {
@@ -74,14 +73,12 @@ public class Import {
             }
             addedEdges.add(new Pair<>(tail, head));
             for (Edge e : g.edges) {
-                //System.out.println(tail + " " + head + " " + e.e1.v.id + " " + e.e2.v.id);
                 if ((e.e1.v.id == tail && e.e2.v.id == head) || (
                         e.e1.v.id == head && e.e2.v.id == tail)) {
                     if (duplicates != 0) {
                         duplicates--;
                     } else {
                         e.middle.setXY(aveX / pos.length, aveY / pos.length);
-                        //System.out.println("point " + e.middle.getCenterX() + " " + e.middle.getCenterY());
                         break;
                     }
                 }
