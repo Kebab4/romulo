@@ -41,7 +41,10 @@ public class Vertex extends Node {
     }
 
     void setText(String meno) {
+        this.g.texts.remove(this.text);
+        this.g.getChildren().remove(this.text);
         this.text = new Text(meno, this);
+        g.addText(this.text);
     }
 
 }

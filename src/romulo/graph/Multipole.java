@@ -20,6 +20,7 @@ public class Multipole extends Vertex {
     }
     public void setType(String type) {
         this.type = type;
+        this.setText(type);
     }
     public void setConnectors(List<List<Integer>> connectors) {
         Map<Integer, Integer> usedEdges = new HashMap<>();

@@ -37,4 +37,27 @@ public class Export {
             e.printStackTrace();
         }
     }
+    public static String DotFromModel(Graph g) {
+        /*
+        std::stringstream ss;
+        ss << "graph {\noverlap = false;\nsplines = false;\nsep=.3;\nnode[margin=0, fontsize=12, shape=circle, height=.3, width=.3];\n";
+        for (auto ii : G.list(RP::all(), IP::primary())) {
+            ss << ii->n1().to_int() << " -- " << ii->n2().to_int() << " [id=\"" << ii->l().index() << "\"";
+            if (std::find(edges.begin(), edges.end(), ii->e().id().to_int()) != edges.end()) {
+                ss << ", len=" << sl;
+            } else if (std::find(weakedges.begin(), weakedges.end(), ii->e().id().to_int()) != weakedges.end()) {
+                ss << ", len=" << wl;
+            }
+            ss << "];\n";
+        }
+        ss << "}\n";
+        return ss.str();
+         */
+        String ss = "graph {\noverlap = false;\nsplines = false;\nsep=.3;\nnode[margin=0, fontsize=12, shape=circle, height=.3, width=.3];\n";
+        for (Edge e : g.edges) {
+            ss += e.e1.v.id + " -- " + e.e2.v.id + "\n";
+        }
+        ss += "}\n";
+        return ss;
+    }
 }

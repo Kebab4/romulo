@@ -9,19 +9,22 @@ public class Graph extends javafx.scene.layout.Pane {
     public List<Edge> edges = new ArrayList<>();
     public List<Text> texts = new ArrayList<>();
     public int size;
+    public boolean binded = false;
     public Graph(int size) {
         this.size = size;
     }
 
-    public void setBind() {
-        for (Point p : points) {
-            p.setBind();
-        }
-    }
-
-    public void unsetBind() {
-        for (Point p : points) {
-            p.unsetBind();
+    public void changeBind() {
+        if (!binded) {
+            for (Point p : points) {
+                p.setBind();
+            }
+            binded = true;
+        } else {
+            for (Point p : points) {
+                p.unsetBind();
+            }
+            binded = false;
         }
     }
 
@@ -45,7 +48,7 @@ public class Graph extends javafx.scene.layout.Pane {
         vertices.add(v);
         this.getChildren().add(v);
     }
-    public void addEdge(Edge e) {
+    void addEdge(Edge e) {
         edges.add(e);
         this.getChildren().add(e.e1);
         this.getChildren().add(e.e2);
