@@ -5,6 +5,7 @@ import romulo.graph.Edge;
 import romulo.graph.Graph;
 import romulo.graph.Multipole;
 import romulo.graph.Vertex;
+import romulo.graph.Point;
 import javafx.scene.text.Text;
 
 import java.util.ArrayList;
@@ -12,8 +13,10 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.List;
 
+import java.util.*;
+
 public interface Formatter {
-    List<Graph> loadModel(Scanner s);
+    List<Graph> loadModel(Scanner s) throws Exception;
     default List<Integer> getListNumbers(String s, String regexSep) {
         List<Integer> list = new ArrayList<>();
         for (String field : s.split(regexSep)) { // susedia vrchola
@@ -88,7 +91,7 @@ class SimpleFormatter implements Formatter {
                 Name i j, k, l m n ... // Name of multipole and neighbours grouped in connectors
      */
     @Override
-    public List<Graph> loadModel(Scanner scan) {
+    public List<Graph> loadModel(Scanner scan) throws Exception {
         List<Graph> graphs = new ArrayList<>();
         int numOfGraphs = scan.nextInt();
         for (int i = 0; i < numOfGraphs; i++) {
@@ -126,11 +129,26 @@ class SimpleFormatter implements Formatter {
                     m.setConnectors(connectors);
                 }
             }
+            for (Vertex v : g.vertices) {
+                v.toFront();
+            }
+            for (Point p : g.points) {
+                p.toFront();
+            }
             for (Text t : g.texts) {
                 t.toFront();
                 System.out.println(t.getX());
             }
             graphs.add(g);
+        }
+        String BA = Export.BAfromModel(graphs);
+        Export.FilefromString(BA, "export/tmp.ba");
+        // Command.Run("make -C lib/ba-graph/apps/showcutgraph/");
+        for (int i = 0; i < numOfGraphs; i++) {
+            Command.Run("./lib/ba-graph/apps/showcutgraph/showcutgraph -i export/tmp.ba -p -s 4 -w 1  > export/tmp.gv");
+            Command.Run("neato -Tjson0 export/tmp.gv -o export/tmp.dotjson");
+            Command.Run("neato -Tpdf export/tmp.gv -o export/tmp.pdf");
+            Import.ModelfromJSON(Import.JSONfromfile("export/tmp.dotjson"), graphs.get(i));
         }
         return graphs;
     }

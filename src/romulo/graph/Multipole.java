@@ -15,7 +15,7 @@ public class Multipole extends Vertex {
     public List<Connector> connectors = new ArrayList<>();
 
     Multipole(int id, String type, Graph g) {
-        super(id, g, 7, Color.RED, type);
+        super(id, g, 12, Color.RED, type);
         this.type = type;
     }
     public void setType(String type) {

@@ -37,7 +37,8 @@ public class Import {
 
 
 
-    public static void ModelfromJSON(JSONObject file, Graph g) {
+    public static Graph ModelfromJSON(JSONObject file, Graph g) {
+        int zoom = 3;
         JSONArray objects = (JSONArray) file.get("objects");
         JSONArray edges = (JSONArray) file.get("edges");
 
@@ -45,7 +46,7 @@ public class Import {
             JSONObject vertex = (JSONObject) objects.get(i);
             String[] pos = ((String) vertex.get("pos")).split(",");
             g.vertices.get(Integer.parseInt(vertex.get("name").toString())).setXY(
-                    Double.parseDouble(pos[0]), Double.parseDouble(pos[1]));
+                    Double.parseDouble(pos[0])*zoom, Double.parseDouble(pos[1])*zoom);
             Vertex tmpV = g.vertices.get(Integer.parseInt(vertex.get("name").toString()));
             //System.out.println("vrchol " + vertex.get("name").toString() + " " + tmpV.getCenterX() + " " + tmpV.getCenterY());
         }
@@ -59,7 +60,7 @@ public class Import {
             double aveX = 0, aveY = 0;
             for (String s : pos) {
                 String[] ssplit = s.split(",");
-                float[] longlist = {Float.parseFloat(ssplit[0]), Float.parseFloat(ssplit[1])};
+                float[] longlist = {Float.parseFloat(ssplit[0])*zoom, Float.parseFloat(ssplit[1])*zoom};
                 poss.add(longlist);
                 aveX += longlist[0];
                 aveY += longlist[1];
@@ -86,5 +87,6 @@ public class Import {
                 }
             }
         }
+        return g;
     }
 }

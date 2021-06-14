@@ -13,6 +13,18 @@ public class Graph extends javafx.scene.layout.Pane {
         this.size = size;
     }
 
+    public void setBind() {
+        for (Point p : points) {
+            p.setBind();
+        }
+    }
+
+    public void unsetBind() {
+        for (Point p : points) {
+            p.unsetBind();
+        }
+    }
+
     public void addVertex(int id) {
         Vertex v = new Vertex(id, this);
         this.vertices.add(v);
@@ -41,7 +53,7 @@ public class Graph extends javafx.scene.layout.Pane {
     void addText(Text t) {
         texts.add(t);
         this.getChildren().add(t);
-        System.out.println(t.meno + " " +  t.getX() + " " +  t.getY());
+        System.out.println(t.getText() + " " +  t.getX() + " " +  t.getY());
     }
 
     public void move(double x, double y) {
@@ -54,7 +66,7 @@ public class Graph extends javafx.scene.layout.Pane {
             n.setCenterY(n.getCenterY() + y);
         }
         for (Text t : this.texts) {
-            System.out.println(t.meno + " " +  t.getX() + " " +  t.getY());
+            System.out.println(t.getText() + " " +  t.getX() + " " +  t.getY());
         }
     }
     public void scale(double times) {

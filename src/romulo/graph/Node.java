@@ -6,6 +6,8 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
 
+import java.util.EventObject;
+
 public class Node extends javafx.scene.shape.Circle {
     int radius;
     Color color;
@@ -43,30 +45,38 @@ public class Node extends javafx.scene.shape.Circle {
     }
 
     EventHandler<MouseEvent> circleOnMousePressedEventHandler =
-        new EventHandler<MouseEvent>() {
+        new EventHandler<>() {
 
             @Override
             public void handle(MouseEvent t) {
+                Object eo = t.getSource();
+                if (t.getSource() instanceof Text) {
+                    eo = ((Text) t.getSource()).parent;
+                }
                 orgSceneX = t.getSceneX();
                 orgSceneY = t.getSceneY();
-                orgTranslateX = ((Node)(t.getSource())).getTranslateX();
-                orgTranslateY = ((Node)(t.getSource())).getTranslateY();
+                orgTranslateX = ((Node) eo).getTranslateX();
+                orgTranslateY = ((Node) eo).getTranslateY();
             }
         };
 
     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
-        new EventHandler<MouseEvent>() {
+        new EventHandler<>() {
 
             @Override
             public void handle(MouseEvent t) {
+                Object eo = t.getSource();
+                if (t.getSource() instanceof Text) {
+                    eo = ((Text) t.getSource()).parent;
+                }
                 double offsetX = t.getSceneX() - orgSceneX;
                 double offsetY = t.getSceneY() - orgSceneY;
                 double newTranslateX = orgTranslateX + offsetX;
                 double newTranslateY = orgTranslateY + offsetY;
                 //System.out.println(t.getSceneX() + " " + t.getSceneY() + " " +
                 //        ((Node)(t.getSource())).getCenterX() + " " + ((Node)(t.getSource())).getCenterY());
-                ((Node)(t.getSource())).setTranslateX(newTranslateX);
-                ((Node)(t.getSource())).setTranslateY(newTranslateY);
+                ((Node) eo).setTranslateX(newTranslateX);
+                ((Node) eo).setTranslateY(newTranslateY);
 
                 //((Node)(t.getSource())).setCenterX(t.getSceneX());
                // ((Node)(t.getSource())).setCenterY(t.getSceneY());
