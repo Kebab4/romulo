@@ -1,57 +1,52 @@
-package romulo;
+package romulo.format;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.ParseException;
-import java.util.List;
-import java.util.ArrayList;
 import javafx.util.Pair;
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import romulo.graph.Edge;
 import romulo.graph.Graph;
-import romulo.graph.Vertex;
 
-import java.io.*;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Import {
-    public static JSONObject JSONfromfile(String filename) {
+public class JSON {
+    JSONObject graph;
+    public JSON(String filename) {
         JSONParser jsonParser = new JSONParser();
         JSONObject graph = new JSONObject();
 
-        try (FileReader reader = new FileReader(filename))
-        {
+        try (FileReader reader = new FileReader(filename)) {
             Object obj = jsonParser.parse(reader);
             graph = (JSONObject) obj;
             System.out.println("imported " + filename);
 
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
+        } catch (IOException | ParseException e) {
             e.printStackTrace();
         }
+        this.graph = graph;
+    }
+    public JSONObject getJSON() {
         return graph;
     }
 
-
-
-    public static Graph ModelfromJSON(JSONObject file, Graph g) {
+    public void toModel(Graph g) {
         int zoom = 3;
-        JSONArray objects = (JSONArray) file.get("objects");
-        JSONArray edges = (JSONArray) file.get("edges");
+        JSONArray objects = (JSONArray) this.graph.get("objects");
+        JSONArray edges = (JSONArray) this.graph.get("edges");
 
-        for (int i = 0; i < objects.size(); i++) {
-            JSONObject vertex = (JSONObject) objects.get(i);
+        for (Object object : objects) {
+            JSONObject vertex = (JSONObject) object;
             String[] pos = ((String) vertex.get("pos")).split(",");
             g.vertices.get(Integer.parseInt(vertex.get("name").toString())).setXY(
-                    Double.parseDouble(pos[0])*zoom, Double.parseDouble(pos[1])*zoom);
-            Vertex tmpV = g.vertices.get(Integer.parseInt(vertex.get("name").toString()));
+                    Double.parseDouble(pos[0]) * zoom, Double.parseDouble(pos[1]) * zoom);
         }
         List<Pair<Integer, Integer>> addedEdges = new ArrayList<>();
-        for (int i = 0; i < edges.size(); i++) {
-            JSONObject edge = (JSONObject) edges.get(i);
+        for (Object o : edges) {
+            JSONObject edge = (JSONObject) o;
             int tail = Integer.parseInt(((JSONObject) objects.get(((Long) edge.get("tail")).intValue())).get("name").toString());
             int head = Integer.parseInt(((JSONObject) objects.get(((Long) edge.get("head")).intValue())).get("name").toString());
             String[] pos = ((String) edge.get("pos")).split(" ");
@@ -59,7 +54,7 @@ public class Import {
             double aveX = 0, aveY = 0;
             for (String s : pos) {
                 String[] ssplit = s.split(",");
-                float[] longlist = {Float.parseFloat(ssplit[0])*zoom, Float.parseFloat(ssplit[1])*zoom};
+                float[] longlist = {Float.parseFloat(ssplit[0]) * zoom, Float.parseFloat(ssplit[1]) * zoom};
                 poss.add(longlist);
                 aveX += longlist[0];
                 aveY += longlist[1];
@@ -84,6 +79,5 @@ public class Import {
                 }
             }
         }
-        return g;
     }
 }

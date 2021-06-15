@@ -3,7 +3,8 @@ package romulo;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import romulo.graph.Graph;
+import romulo.graph.*;
+import romulo.format.*;
 
 import java.io.File;
 import java.text.Normalizer;
@@ -16,42 +17,29 @@ import javafx.stage.FileChooser;
 
 
 public class Romulo extends Application {
-    List<Graph> graphs;
-    Graph actual;
-    Stage stage;
-    HBox editor;
+    public Stage stage;
 
-    void newFile(File f, Formatter form) {
+
+    public void newFile(File f, MBA form) {
         try {
             Scanner scan = new Scanner(f);
             List<Graph> graphs = form.loadModel(scan);
-            this.graphs = graphs;
-            Graph g = graphs.get(0);
-
-            g.move(200, 150);
-            g.changeBind();
-            System.out.println(g.vertices);
-            VBox vbox = new VBox(8);
-            vbox.getChildren().addAll(editor, g);
-            this.actual = g;
-            this.stage.setScene(new Scene(vbox, 500, 400));
+            this.setWorkplace(new Session(graphs, this));
         } catch (java.io.IOException e) {
             System.out.println("throwed io exception");
         }
     }
 
-    @Override
-    public void start(Stage primaryStage) throws java.io.IOException {
-        this.stage = primaryStage;
-
+    public void setWorkplace(Session s) {
         Button loadEMBAFile = new Button("Načítaj ExtendedMultipoleBA súbor");
-        loadEMBAFile.setOnAction((ActionEvent event) -> {
+        loadEMBAFile.setOnAction((
+                ActionEvent event) -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
             fileChooser.setTitle("Načítaj súbor");
-            File f = fileChooser.showOpenDialog(primaryStage);
+            File f = fileChooser.showOpenDialog(stage);
             if (f != null) {
-                newFile(f, new ExtendedFormatter());
+                this.newFile(f, new EMBA());
             }
         });
         Button loadSMBAFile = new Button("Načítaj SimpleMultipoleBA súbor");
@@ -59,33 +47,45 @@ public class Romulo extends Application {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setInitialDirectory(new File(System.getProperty("user.dir")));
             fileChooser.setTitle("Načítaj súbor");
-            File f = fileChooser.showOpenDialog(primaryStage);
+            File f = fileChooser.showOpenDialog(stage);
             if (f != null) {
-                newFile(f, new SimpleFormatter());
+                this.newFile(f, new SMBA());
             }
         });
 
         Button changeBind = new Button("Voľnosť hrán");
         changeBind.setOnAction((ActionEvent event) -> {
-            this.actual.changeBind();
+            s.getActual().changeBind();
         });
 
-        this.editor = new HBox(8);
-        this.editor.getChildren().addAll(loadEMBAFile, loadSMBAFile, changeBind);
+        Button prevGraph = new Button("<");
+        prevGraph.setOnAction((ActionEvent event) -> {
+            s.prevGraph();
+        });
 
-        newFile(new File("import/mults.emba"),  new ExtendedFormatter());
-        //File myObj = new File("import/graphs/ex2.mba");
+        Button nextGraph = new Button(">");
+        nextGraph.setOnAction((ActionEvent event) -> {
+            s.nextGraph();
+        });
 
-        //g.unsetBind();
-        //graphs.get(0).scale(2);
+        javafx.scene.text.Text idGraph = new javafx.scene.text.Text(String.valueOf(s.getPointer()));
 
+        HBox editor = new HBox(8);
+        editor.getChildren().addAll(loadEMBAFile, loadSMBAFile, changeBind, prevGraph, nextGraph, idGraph);
 
         VBox vbox = new VBox(8);
-        vbox.getChildren().addAll(editor, new Graph(0));
-        primaryStage.setTitle("Okno");
-        primaryStage.setScene(new Scene(vbox, 500, 400));
-        // System.out.println("vsetky deti " + graphs.get(0).getChildren().size() + " " + graphs.get(0).getChildren());
-        primaryStage.show();
+        vbox.getChildren().addAll(editor, s.getActual());
+        stage.setTitle("Romulo");
+        stage.setScene(new Scene(vbox, s.getWidth(), s.getHeight()));
+        stage.show();
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws java.io.IOException {
+
+        // Command.Run("make -C lib/ba-graph/apps/showcutgraph/")
+        this.stage = primaryStage;
+        this.setWorkplace(new Session(new ArrayList<>(), this));
     }
 
 

@@ -20,6 +20,8 @@ public class Point extends Node {
         this.setOnMousePressed(null);
         this.setOnMouseDragged(null);
         int shift = 50-rand.nextInt(101);
+        this.setTranslateX(0);
+        this.setTranslateY(0);
         DoubleBinding midPointX = this.edge.e1.startXProperty().add(
                         this.edge.e2.startXProperty()).divide(2);
         DoubleBinding midPointY = this.edge.e1.startYProperty().add(
