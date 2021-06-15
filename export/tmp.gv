@@ -1,0 +1,8 @@
+graph {
+overlap = false;
+splines = false;
+sep=.3;
+node[margin=0, fontsize=12, shape=circle, height=.3, width=.3];
+0 -- 2
+0 -- 1
+}

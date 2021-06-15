@@ -14,6 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSON {
+
+    /*
+    FORMAT
+    {
+        ...
+        objects: [name, pos]
+        edges: [head, tail, pos]
+    }
+    */
+
     JSONObject graph;
     public JSON(String filename) {
         JSONParser jsonParser = new JSONParser();

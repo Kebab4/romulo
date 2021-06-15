@@ -1,7 +1,6 @@
 package romulo.graph;
 
 public class HalfEdge extends javafx.scene.shape.Line {
-    String color;
     Edge parent;
     public Vertex v;
     HalfEdge(Vertex v, Edge e) {

@@ -1,19 +1,23 @@
 package romulo;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ToolBar;
+import javafx.scene.layout.GridPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import romulo.graph.*;
-import romulo.format.*;
+import romulo.format.EMBA;
+import romulo.format.MBA;
+import romulo.format.SMBA;
+import romulo.graph.Graph;
+import romulo.graph.Session;
 
 import java.io.File;
-import java.text.Normalizer;
-import java.util.*;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.scene.input.*;
-import javafx.event.*;
-import javafx.stage.FileChooser;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 
 public class Romulo extends Application {
@@ -54,22 +58,16 @@ public class Romulo extends Application {
         });
 
         Button changeBind = new Button("Voľnosť hrán");
-        changeBind.setOnAction((ActionEvent event) -> {
-            s.getActual().changeBind();
-        });
+        changeBind.setOnAction((ActionEvent event) -> s.getActual().changeBind());
 
         Button prevGraph = new Button("<");
-        prevGraph.setOnAction((ActionEvent event) -> {
-            s.prevGraph();
-        });
+        prevGraph.setOnAction((ActionEvent event) -> s.prevGraph());
 
         Button nextGraph = new Button(">");
-        nextGraph.setOnAction((ActionEvent event) -> {
-            s.nextGraph();
-        });
+        nextGraph.setOnAction((ActionEvent event) -> s.nextGraph());
 
 
-        javafx.scene.text.Text idGraph = new javafx.scene.text.Text("Graph ID: " + String.valueOf(s.getPointer()));
+        javafx.scene.text.Text idGraph = new javafx.scene.text.Text("Graph ID: " + (s.getPointer() + 1));
 
         ToolBar toolBar = new ToolBar();
         toolBar.getItems().addAll(loadEMBAFile, loadSMBAFile, changeBind, prevGraph, nextGraph, idGraph);

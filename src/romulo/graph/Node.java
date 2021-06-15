@@ -1,12 +1,9 @@
 package romulo.graph;
 
-import javafx.scene.paint.*;
-
 import javafx.event.EventHandler;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.Cursor;
-
-import java.util.EventObject;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 public class Node extends javafx.scene.shape.Circle {
     int radius;
@@ -41,10 +38,6 @@ public class Node extends javafx.scene.shape.Circle {
         this.radius *= times;
     }
 
-    public void setRadius(int radius) {
-        this.radius = radius;
-    }
-
     EventHandler<MouseEvent> circleOnMousePressedEventHandler =
         new EventHandler<>() {
 
@@ -77,9 +70,6 @@ public class Node extends javafx.scene.shape.Circle {
 
                 ((Node) eo).setTranslateX(newTranslateX);
                 ((Node) eo).setTranslateY(newTranslateY);
-
-                //((Node)(t.getSource())).setCenterX(t.getSceneX());
-               // ((Node)(t.getSource())).setCenterY(t.getSceneY());
             }
         };
 }

@@ -6,12 +6,10 @@ import java.util.Scanner;
 public class Command {
 
     private static void inheritIO(final InputStream src, final PrintStream dest) {
-        new Thread(new Runnable() {
-            public void run() {
-                Scanner sc = new Scanner(src);
-                while (sc.hasNextLine()) {
-                    dest.println(sc.nextLine());
-                }
+        new Thread(() -> {
+            Scanner sc = new Scanner(src);
+            while (sc.hasNextLine()) {
+                dest.println(sc.nextLine());
             }
         }).start();
     }
@@ -23,8 +21,7 @@ public class Command {
             inheritIO(p.getInputStream(), System.out);
             inheritIO(p.getErrorStream(), System.err);
             p.waitFor();
-        } catch (Exception e) {
-
+        } catch (Exception ignored) {
         }
     }
 }

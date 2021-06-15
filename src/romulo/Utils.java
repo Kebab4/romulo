@@ -1,13 +1,7 @@
 package romulo;
 
-import javafx.util.Pair;
-import romulo.graph.Edge;
-import romulo.graph.Graph;
-import romulo.graph.Vertex;
-
 import java.io.FileWriter;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -25,15 +25,6 @@ public class EMBA implements MBA {
 
     @Override
     public List<Graph> loadModel(Scanner scan) {
-        // convert format do oldBA
-        // get cut format
-        // create vertices
-        // create groupings and simple version convert
-        // iterate and add edges
-        // create multipoles
-
-        // convert to neato with attributes
-        // json parser set XY // import modeltojson
 
         // moving scan to file
         StringBuilder inputFile = new StringBuilder();
@@ -96,7 +87,7 @@ public class EMBA implements MBA {
                     multIds.remove(j);
                     multIds.add(reduceId.get(j));
                 } else { // zredukovany vrchol
-                    reduceId.put(j, reduceId.get(j) - posun);
+                    reduceId.put(j, reduceId.get(reduceId.get(j)));
                     posun++;
                 }
             }
@@ -115,7 +106,7 @@ public class EMBA implements MBA {
             inputScan.nextLine(); // endline
             for (int j = 0; j < sizeOfGraph; j++) {
                 for (Integer k : Utils.getListNumbers(inputScan.nextLine().trim(), " +")) {
-                    if (!reduceId.get(j).equals(reduceId.get(k)) || k > j) // lebo by si vramci multipolu zaratal kazdu hranu dva krat
+                    if (!reduceId.get(j).equals(reduceId.get(k))) // nerataj vnutorne hrany multipolu
                         g.vertices.get(reduceId.get(j)).addEdge(reduceId.get(k), g);
                 }
             }
@@ -135,9 +126,9 @@ public class EMBA implements MBA {
                     for (int l = 0; l < connSize; l++) {
                         List<Integer> edge = Utils.getListNumbers(edges[counter].trim(), " +");
                         if (multipoles.get(i).get(j).contains(edge.get(0))) {
-                            conn.add(edge.get(1));
+                            conn.add(reduceId.get(edge.get(1)));
                         } else {
-                            conn.add(edge.get(0));
+                            conn.add(reduceId.get(edge.get(0)));
                         }
                         counter++;
                     }

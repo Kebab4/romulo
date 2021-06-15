@@ -1,0 +1,59 @@
+{
+  "name": "%3",
+  "directed": false,
+  "strict": false,
+  "bb": "0,0,57.455,87.643",
+  "overlap": "false",
+  "sep": ".3",
+  "splines": "false",
+  "_subgraph_cnt": 0,
+  "objects": [
+    {
+      "_gvid": 0,
+      "name": "0",
+      "fontsize": "12",
+      "height": "0.30556",
+      "label": "\\N",
+      "margin": "0",
+      "pos": "23.518,46.64",
+      "shape": "circle",
+      "width": "0.30556"
+    },
+    {
+      "_gvid": 1,
+      "name": "2",
+      "fontsize": "12",
+      "height": "0.30556",
+      "label": "\\N",
+      "margin": "0",
+      "pos": "46.455,76.643",
+      "shape": "circle",
+      "width": "0.30556"
+    },
+    {
+      "_gvid": 2,
+      "name": "1",
+      "fontsize": "12",
+      "height": "0.30556",
+      "label": "\\N",
+      "margin": "0",
+      "pos": "11,11",
+      "shape": "circle",
+      "width": "0.30556"
+    }
+  ],
+  "edges": [
+    {
+      "_gvid": 0,
+      "tail": 0,
+      "head": 1,
+      "pos": "30.276,55.479 33.236,59.351 36.703,63.886 39.666,67.762"
+    },
+    {
+      "_gvid": 1,
+      "tail": 0,
+      "head": 2,
+      "pos": "19.83,36.139 18.215,31.54 16.322,26.153 14.705,21.548"
+    }
+  ]
+}

@@ -44,15 +44,13 @@ public class Graph extends javafx.scene.layout.Pane {
         points.add(p);
         this.getChildren().add(p);
     }
-    void addVertex(Vertex v) {
-        vertices.add(v);
-        this.getChildren().add(v);
-    }
+
     void addEdge(Edge e) {
         edges.add(e);
         this.getChildren().add(e.e1);
         this.getChildren().add(e.e2);
     }
+
     void addText(Text t) {
         texts.add(t);
         this.getChildren().add(t);
@@ -68,6 +66,7 @@ public class Graph extends javafx.scene.layout.Pane {
             n.setCenterY(n.getCenterY() + y);
         }
     }
+
     public void scale(double times) {
         for (Node n : this.vertices) {
             n.scale(times);

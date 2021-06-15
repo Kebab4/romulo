@@ -5,7 +5,7 @@ import java.util.List;
 import javafx.scene.paint.Color;
 
 public class Connector {
-    private List<HalfEdge> edges = new ArrayList<>();
+    private final List<HalfEdge> edges = new ArrayList<>();
     Multipole parent;
     Color color;
     public Connector(Multipole parent, Color c) {

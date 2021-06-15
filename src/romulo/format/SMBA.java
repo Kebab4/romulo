@@ -2,12 +2,12 @@ package romulo.format;
 
 
 import javafx.scene.text.Text;
-import javafx.util.Pair;
-import romulo.Command;
 import romulo.Utils;
-import romulo.graph.*;
+import romulo.graph.Graph;
+import romulo.graph.Multipole;
+import romulo.graph.Point;
+import romulo.graph.Vertex;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,8 +25,9 @@ public class SMBA implements MBA {
             if multipole:
                 Name i j, k, l m n ... // Name of multipole and neighbours grouped in connectors
      */
+
     @Override
-    public List<Graph> loadModel(Scanner scan) throws java.io.IOException {
+    public List<Graph> loadModel(Scanner scan) {
 
         List<Graph> graphs = new ArrayList<>();
         int numOfGraphs = scan.nextInt();
@@ -53,15 +54,19 @@ public class SMBA implements MBA {
                     }
                 } else { // multipol
                     String name = l.split(" +")[l.split(" +").length-1];
-                    String[] allCon = String.join(",", Arrays.copyOfRange(l.split(" +"), 0,
+                    String[] allCon = String.join(" ", Arrays.copyOfRange(l.split(" +"), 0,
                             l.split(" +").length - 1)).split(",");
                     List<List<Integer>> connectors = new ArrayList<>();
                     for (String con : allCon) {
                         List<Integer> cons = Utils.getListNumbers(con.trim(), " +");
+                        for (Integer k : cons) {
+                            g.vertices.get(j).addEdge(k, g);
+                        }
                         connectors.add(cons);
                     }
                     Multipole m = (Multipole) g.vertices.get(j);
                     m.setConnectors(connectors);
+                    m.setType(name);
                 }
             }
             for (Vertex v : g.vertices) {

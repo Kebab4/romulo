@@ -1,34 +1,8 @@
 package romulo.graph;
 
-import javafx.event.ActionEvent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import romulo.format.EMBA;
-import romulo.format.MBA;
-import romulo.format.SMBA;
 import romulo.Romulo;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import javafx.event.*;
-import javafx.scene.control.*;
-import java.util.Scanner;
-import javafx.scene.layout.*;
-import javafx.application.*;
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.event.*;
-import javafx.scene.shape.*;
-import javafx.scene.paint.*;
-import javafx.animation.*;
-import javafx.scene.input.*;
-import java.util.*;
 
 public class Session {
     List<Graph> graphs;

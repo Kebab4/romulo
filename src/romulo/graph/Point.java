@@ -1,8 +1,8 @@
 package romulo.graph;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.paint.Color;
+
 import java.util.Random;
 
 public class Point extends Node {
@@ -32,8 +32,6 @@ public class Point extends Node {
     public void unsetBind() {
         this.centerXProperty().unbind();
         this.centerYProperty().unbind();
-        //this.setCenterX(this.lastX);
-        //this.setCenterY(this.lastY);
         this.setOnMousePressed(circleOnMousePressedEventHandler);
         this.setOnMouseDragged(circleOnMouseDraggedEventHandler);
     }
