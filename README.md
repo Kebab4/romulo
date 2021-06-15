@@ -1,8 +1,7 @@
-Schematická vizualizácia grafov pomocou multipólov 
+Schematická vizualizácia grafov pomocou multipólov
 ==============
-Report zo zimného semestra 2020/2021
+Report z letného a zimného semestra 2020/2021
 Pavol Kebis
-
 
 Ciele projektu 
 --------------
@@ -57,6 +56,221 @@ zásady, ktoré chcem pri projekte dodržať.
     starších zariadeniach
 
 -   Udržateľnosť - podpora projektu musí vyrdžať aspoň zopár rokov
+
+## Report z letného semestra
+
+Hlavná časť práce v letnom semetri bolo dizajnovanie a programovanie 
+modelu zo zimného semestra. Ten sa napokon upravil do nižšie popísanej verzie.
+
+Formáty
+--------------
+Počas semestra som narazil na problém práce s formátmi reprezentácie grafu. Napokon som 
+tento problém vyriešil vytvorením dvoch formátov, ktoré sú oba podporované aplikáciou.
+Formát EMBA podporuje zapísanie obsahu multipólu, čo umožní v niektorých prípadoch
+nájsť minimálny rez, ktorý môže prechádzať cez multipól. Formát SMBA je jednoduchší a
+reprezentuje multipól ako jeden vrchol. V oboch formátoch je informácia o rozložení
+hrán do konektorov a názov multipólu.
+
+### old BA formát ###
+Tento formát používa knižnica ba-graph. Tento formát reprezentácie grafu má v sebe
+pre každý graf informáciu o incidencií jeho vrcholov. Pseukód načítania oldBA formátu
+by bol nasledovný:
+
+    pocet_grafov
+    for i in pocet_grafov:
+        index_grafu
+        velkost_grafu
+        for j in velkost_grafu:
+            susedia_vrchola = input().split()
+
+
+Ukážka súboru
+
+    2
+    1
+    4
+    1 2 3
+    0 3 3 2 2
+    0 1 1 3 3
+    0 1 1 2 2
+    2
+    12
+    6 7 3 4 5
+    8 9 3 4 5
+    10 11 3 4 5
+    0 1 2
+    0 1 2
+    0 1 2
+    0 9 11
+    0 8 10
+    1 7 11
+    1 6 10
+    2 7 9
+    2 6 8
+
+### Extended Multipole BA formát (EMBA) ###
+Tento formát v sebe obsahuje informáciu o tom, aká je štruktúra vnútri multipólu.
+Prvá časť formátu obsahuje informáciu totožnú s formátom oldBA a potom nasleduje 
+informácia o multipóloch:
+
+    pocet_grafov
+    for i in pocet_grafov:
+        index_grafu
+        velkost_grafu, pocet multipolov
+        for j in velkost_grafu:
+            susedia_vrchola = input().split()
+        for j in pocet_multipolov:
+            meno_multipolu
+            vrcholy_multipolu = input().split()
+            pocty_v_konektoroch = input().split()
+            hrany_podla_konektorov = input().split(",").split()
+
+Hrany_podla_konektorov obsahuje hrany zapisané ako dve čísla oddelené medzerou.
+Hrany su oddelené čiarkou a sú usporiadané podľa toho ako sú v konektoroch s tým, že
+počty hrán v jednom konektore sú dané premennou pocty_v_konektoroch
+
+Ukážka súboru
+
+    1
+    1
+    10 2
+    1 4 5
+    0 2 6
+    1 3 7
+    2 4 8
+    3 0 9
+    0 7 8 8
+    1 8 9 8
+    2 9 5
+    3 5 6 6 5
+    4 6 7
+    M2
+    0 1
+    2 2
+    0 4, 1 2, 0 5, 1 6
+    M1
+    8 9
+    8
+    8 3, 8 5, 8 5, 8 6, 8 6, 9 4, 6 9, 7 9
+
+
+### Simple Multipole BA formát (SMBA) ###
+Tento formát je jednoduchší v tom, že neobsahuje informáciu o obsahu multipólu.
+To, či je vrchol multipól je dané tým, či na konci riadka je, alebo nie je meno
+zapísané ako reťazec. Informácia o incidenií je usporiadaná podľa konektorov a
+jednotlivé konektory sú oddelené čiarkou.
+
+    pocet_grafov
+    for i in pocet_grafov:
+        index_grafu
+        velkost_grafu
+        for j in velkost_grafu:
+            if (input() na konci ma string):
+                multipol = input().split(",").split(), input().koniec()
+            else:
+                vrchol = input().split()
+
+Ukážka súboru
+
+    2
+    1
+    4
+    1 2 3
+    0,2 2,3 3 N1
+    0,1 1,3 3 N2
+    0,1 1,2 2 N3
+    2
+    4
+    1 2 3
+    3 3,0 2 2 T1
+    3 3,0 1 1 T2
+    0,1 1,2 2 N
+
+Funkcionality
+--------------
+Aplikácia po spustení otvorí okno s tabom s možnými funkcionalitami. Medzi ne patrí 
+načítanie súboru, zmena 'zaviazania' medzivrcholov hrán a posledná funkcionalita je
+prepínanie medzi grafmi vrámci súboru.
+
+### Zobrazovanie hrany ###
+Reprezentácia hrán v grafe iba čisto ako čiaru medzi vrcholmi má nevýhodu v tom,
+že znemožňuje lepšiu manipulácia s hranami a pri duplicitných hranách sa zlievajú.
+Tieto ťažkosti som vyriešil reprezentovaním hrany ako dvoch čiar so stredovým bodom,
+ktorý sa vie hýbať samostatne. Tým vieme zabezpečiť, aby sa duplicitné hrany neprekrývali,
+aby sme vedeli krajšie usporiadať hrany a navyše tým vieme farebne prideliť hranu
+do konektora. Stačí totiž tú polovicu hrany, ktorá je bližšie k vrcholu zafarbiť
+hranou daného konektora.
+
+![Obrázok grafu aj s prvkami a konektoromt](docs/romulo.png?raw=true "Obrázok grafu aj s prvkami a konektorom")
+
+### Zaviazanie hrany ###
+Reprezentácia hrany so stredným vrcholom má nevýhodu v tom, že pri posúvaní vrchola
+ostáva stredný vrchol stáť a to robí citeľne graf neprehľadnejším. Preto som pridal
+možnosť, aby sa stredný vrchol hýbal spolu s krajným vrcholmi a teda by bol zafixovaný.
+Tento mód sa dá striedať s normálnym módom klinutím na príslušné tlačidlo.
+Pri prepnutí do zaviazaného módu sa stredné vrcholy premiestnia na pozíciu skoro medzi
+2 krajné vrcholy. Nie presne preto, aby ostala v grafe zachovaná informácia
+o duplicitných hranách.
+
+Štruktúra kódu
+---------------------
+Kód sa skladá z časti napísanej v jazyku JAVA a pomocného kódu napísaného v jazyku C++
+vrámci knižnice BA-GRAPH. JAVA časť obsahuje základnú triedu Romulo, package graph, 
+package format a pomocné triedy. Trieda Romulo obsauje spustiteľnú metódu main(). 
+Táto trieda má na starosti prácu s GUI prvkami aplikácie a spustením nižíšich častí.
+Package graph obsahuje reprezentáciu jednotlivých častí grafu. 
+Session má na starosti uchovávanie informácie o aktuálne zobrazenom grafe.
+Graf má na starosti odkazovať na hrany, vrcholy a zaväzovať hrany.
+Node prezentuje vrcholy. Point dedí Node a reprezentuje stredný vrchol hrán.
+Vertex dedí Node a reprezentuje koncové vrcholy hrán. Multipole dedí Vertex 
+a obsahuje navyše informáciu o konektoroch.
+Halfedge reprezentuje jednu čiaru, teda polku hrany. Edge odkazuje na dve HalfEdge.
+Connector si uchováva info o HalfEdge zozname a mení im farby.
+
+Package format obsahuje prácu s formátmi a logiku parsovania. Najzložitejšie sú triedy
+EMBA a SMBA, ktoré parsujú vstupný súbor v danom formáte na model reprezentovaný cez
+package graph. Ďalej sú tam triedy, DOT, CUT, BA, JSON, ktoré poskytujú pomocné
+metódy pre prevádzanie do rôznych formátov.
+
+Náčrt fungovania parsovania
+------------------------------------------
+Pri načítaní súboru potrebuje program parsovať vstupný súbor do modelu.
+To sa deje cez niekoľko krokov pre každý graf v súbore.
+- SMBA
+    - Najprv vytvoria vrcholy a multipóly na základe konca riadkov
+    - Potom sa vytvoria hrany, ale pri Multipoloch sa popri tom pridavaju aj do konektorov
+    - Potom sa reprezentacia grafu prevedie do oldBA formátu a spustí sa na nej
+  hľadanie najmenšieho rezu
+    - Následne sa zparsuje súbor CUT, kde je reprezentovaný najmenší rez v grafe. 
+    - Najmenší rez sa použije na to, aby sme vytvorili DOT súbor, v ktorom pre 
+    najmenší rez pridáme konštantnú väčšiu váhu 
+    -  DOT súbor posunieme knižnici graphviz, ktorá nám povie rozloženie vrcholov na scéne
+- EMBA
+    - Pri EMBA parsujeme rovnako, ale na začiatku musíme vytvoriť BA formát so všetkými vrcholmi
+    - Pred tým než prejdeme ku knižnici graphviz však už musíme spojiť vrcholy do multipólov 
+      aby sme ich mali reprezentovaných ako jeden vrchol.
+
+
+Future goals
+------------------
+Projekt má v sebe viacero nedostatkov. V prvom rade nedostatočne overuje vstup
+a nerobí logovanie, čo zpodstatne zťažuje analýzu a hľadanie chýb.
+Iné nedostatky má projekt napr. v coding conventions alebo v neplnení princípov
+dobrého dizajnu. Model má veľkú previazanosť, nízku čitateľnosť, slabú abstrakciu.
+
+Záver
+------------------
+Z hľadiska funkčnosti bol naplnený cieľ do väčšej miery. Základné funkčné požiadavky 
+sa splnili, avšak v realite môže dôjsť k problémom, ktoré znemožnia správnu funkčnosť.
+Jednoduchosť práce s aplikáciou bola splnená.
+Kompatibilita nebola naplnená, pretože program má v requirements knižnicu ba-graph 
+a kničnicu graphviz. Tieto požiadavky sú v praxi na systéme Windows nesplniteľné.
+Avšak na systéme windows poskytuje aspoň základné grafové rozhranie bez možnosti 
+prvotného rozloženie vrcholov. 
+Udržateľnosť projektu hodnotím ako dostatočnú rozsahu projektu. 
+
+## Report zo zimného semestra
+
 
 Analýza a výber platformy 
 -----------------------------------
@@ -153,7 +367,7 @@ multipóly pomocou kruhov. Konektory by sme chceli zobraziť tak, aby boli
 hrany jedného konektora pri sebe (pri vychádzaní z multipólu) a jasne
 odlíšené od ostatných hrán vychádzajúcich z vrchola.\
 
-![Príklad grafu s využitím multipólov](obr)
+![Príklad grafu s využitím multipólov](docs/obr.png?raw=true "Príklad grafu s využitím multipólov")
 
 ### Interaktivita ###
 
