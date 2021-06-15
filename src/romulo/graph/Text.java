@@ -15,7 +15,7 @@ public class Text extends javafx.scene.text.Text {
         this.setBoundsType(TextBoundsType.VISUAL);
         this.font = 8;
         this.setFont(Font.font ("Verdana", this.font));
-        this.setFill(Color.YELLOW);
+        this.setFill(Color.BLACK);
         this.xProperty().bind(v.centerXProperty().add(-this.getLayoutBounds().getWidth()/2).add(v.translateXProperty()));
         this.yProperty().bind(v.centerYProperty().add(this.getLayoutBounds().getHeight()/2).add(v.translateYProperty()));
         this.setTextAlignment(TextAlignment.CENTER);

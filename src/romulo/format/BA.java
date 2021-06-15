@@ -11,7 +11,7 @@ public class BA {
     public BA(List<Graph> graphs) { // from model
         String s = graphs.size() + "\n";
         for (int i = 0; i < graphs.size(); i++) {
-            s += i + "\n" + graphs.get(i).size + "\n";
+            s += (i+1) + "\n" + graphs.get(i).size + "\n";
             for (Vertex v : graphs.get(i).vertices) {
                 for (Edge e : v.edges) {
                     if (e.e1.v.equals(v)) {

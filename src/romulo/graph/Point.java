@@ -10,7 +10,7 @@ public class Point extends Node {
     double lastX, lastY;
     Random rand;
     public Point(Edge e) {
-        super(3, Color.GREY);
+        super(4, Color.BLACK);
         this.edge = e;
         this.rand = new Random();
     }

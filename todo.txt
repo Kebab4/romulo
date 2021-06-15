@@ -1,0 +1,10 @@
+jop - pohnutie pohne aj strednym bodom - drag
+mame skroll- initial position of graph
+jop - text multipolu
+jop- vybrat vstupn7 spbor
+nope- modulovat silu rezu
+jop- vybrat format
+jop- spravi5 lepsi cut input. Lep39 c++ binding
+nope- input validation
+nope- view from cut dobre skontrolovať
+

@@ -68,22 +68,32 @@ public class Romulo extends Application {
             s.nextGraph();
         });
 
-        javafx.scene.text.Text idGraph = new javafx.scene.text.Text(String.valueOf(s.getPointer()));
 
-        HBox editor = new HBox(8);
-        editor.getChildren().addAll(loadEMBAFile, loadSMBAFile, changeBind, prevGraph, nextGraph, idGraph);
+        javafx.scene.text.Text idGraph = new javafx.scene.text.Text("Graph ID: " + String.valueOf(s.getPointer()));
 
-        VBox vbox = new VBox(8);
-        vbox.getChildren().addAll(editor, s.getActual());
+        ToolBar toolBar = new ToolBar();
+        toolBar.getItems().addAll(loadEMBAFile, loadSMBAFile, changeBind, prevGraph, nextGraph, idGraph);
+
+        GridPane gp = new GridPane();
+        GridPane.setRowIndex(toolBar, 0);
+        GridPane.setRowIndex(s.getActual(), 1);
+        gp.getChildren().addAll(toolBar, s.getActual());
         stage.setTitle("Romulo");
-        stage.setScene(new Scene(vbox, s.getWidth(), s.getHeight()));
+        stage.setScene(new Scene(gp, s.getWidth(), s.getHeight()));
+
+        stage.getScene().setOnScroll(e -> {
+            toolBar.toFront();
+            s.getActual().setTranslateX(s.getActual().getTranslateX() + e.getDeltaX());
+            s.getActual().setTranslateY(s.getActual().getTranslateY() + e.getDeltaY());
+        });
+
         stage.show();
     }
 
     @Override
     public void start(Stage primaryStage) throws java.io.IOException {
 
-        // Command.Run("make -C lib/ba-graph/apps/showcutgraph/")
+        Command.Run("make -C lib/ba-graph/apps/showcutgraph/");
         this.stage = primaryStage;
         this.setWorkplace(new Session(new ArrayList<>(), this));
     }

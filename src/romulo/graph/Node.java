@@ -16,7 +16,8 @@ public class Node extends javafx.scene.shape.Circle {
 
     public Node(double radius, Color color) {
         super(radius);
-        //this.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        this.setFill(Color.WHITE);
+        this.setStrokeWidth(2);
         setColor(color);
         this.color = color;
         this.setCursor(Cursor.HAND);

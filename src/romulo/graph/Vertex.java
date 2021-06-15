@@ -21,7 +21,7 @@ public class Vertex extends Node {
     }
 
     public Vertex(int id, Graph g) {
-        super(8, Color.BLACK);
+        super(12, Color.BLACK);
         this.id = id;
         this.g = g;
         this.setText(String.valueOf(id));

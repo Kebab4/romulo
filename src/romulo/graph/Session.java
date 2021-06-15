@@ -46,20 +46,6 @@ public class Session {
         this.pointer = 0;
         this.height = 30 + 600;
         this.width = 800;
-        /*romulo.stage.getScene().setOnKeyPressed(e -> {
-            switch (e.getCode()) {
-                case RIGHT:
-                    if (pointer < graphs.size() - 1)
-                        pointer++;
-                    break;
-                case LEFT:
-                    if (pointer >= 1)
-                        pointer--;
-                    break;
-            }
-            this.actual = graphs.get(this.pointer);
-            this.romulo.setWorkplace(this);
-        });*/
     }
 
     public Graph getActual() {

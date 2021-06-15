@@ -8,7 +8,7 @@ public class HalfEdge extends javafx.scene.shape.Line {
         super();
         this.parent = e;
         this.v = v;
-        this.setStrokeWidth(1);
+        this.setStrokeWidth(2);
         this.startXProperty().bind(v.centerXProperty().add(v.translateXProperty()));
         this.startYProperty().bind(v.centerYProperty().add(v.translateYProperty()));
         this.endXProperty().bind(parent.middle.centerXProperty().add(parent.middle.translateXProperty()));
