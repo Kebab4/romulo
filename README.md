@@ -3,6 +3,16 @@ Schematická vizualizácia grafov pomocou multipólov
 Report z letného a zimného semestra 2020/2021
 Pavol Kebis
 
+Build and run
+--------------
+Reqirements sú Unixový OS, graphviz neato command, ba-graph knižnica 
+a teda c++ complier podporujúci concepts a JAVA verzia aspoň 13.
+Aktuálne sa dá projekt spustiť len cez Intellij IDEA, ale v budúcnosti 
+už bude možné spustiť ho aj cez build.sh file. Pred tým si však treba 
+skopírovať ba-graph do priečinka lib a do ba-graph/apps presunúť priečinok
+showcutgraph z lib.
+
+
 Ciele projektu 
 --------------
 

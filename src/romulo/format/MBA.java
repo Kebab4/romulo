@@ -14,7 +14,7 @@ public interface MBA {
         if (System.getProperty("os.name").startsWith("Windows"))
             return;
         if (Command.Run("./lib/ba-graph/apps/showcutgraph/showcutgraph -i export/tmp.ba > export/tmp.cut") != 0)
-            return;
+            ;
         try {
             CUT cuts = new CUT(new Scanner(new File("export/tmp.cut")), graphs);
             for (int i = 0; i < graphs.size(); i++) {

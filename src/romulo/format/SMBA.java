@@ -2,6 +2,7 @@ package romulo.format;
 
 
 import javafx.scene.text.Text;
+import romulo.Command;
 import romulo.Utils;
 import romulo.graph.Graph;
 import romulo.graph.Multipole;
@@ -80,6 +81,7 @@ public class SMBA implements MBA {
             }
             graphs.add(g);
         }
+        Command.Run("rm -rf export/*");
         String ba = new BA(graphs).toString();
         Utils.FilefromString(ba, "export/tmp.ba");
         cutAndPosition(graphs);
