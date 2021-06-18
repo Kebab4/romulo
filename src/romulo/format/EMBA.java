@@ -2,6 +2,7 @@ package romulo.format;
 
 
 import javafx.scene.text.Text;
+import romulo.Command;
 import romulo.Utils;
 import romulo.graph.*;
 
@@ -56,6 +57,7 @@ public class EMBA implements MBA {
             }
             multipoles.add(multsOfOne);
         }
+        Command.Run("rm -rf export/*");
         Utils.FilefromString(oldBaFormat.toString(), "export/tmp.ba");
 
         // creation of graphs
